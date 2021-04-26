@@ -9,12 +9,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,7 +30,11 @@ import org.springframework.web.client.RestTemplate;
 @WebMvcTest(value = GitHubController.class)
 @WithMockUser
 @Import(GitHubController.class)
+@ActiveProfiles("test")
 public class GitHubControllerTest {
+	
+	@Value("${expected.response}")
+	private String expected;
 	
 	@Autowired
 	RestTemplate restTemplate;
@@ -44,7 +49,7 @@ public class GitHubControllerTest {
 	@Test
 	@WithMockUser
 	public void listMyRepositoriesTest() throws Exception {
-		String expected = "[{\"fullName\":\"ryard/awesome-compose\",\"gitUrl\":\"git://github.com/ryard/awesome-compose.git\",\"createdAt\":\"2021-03-16T05:27:17Z\",\"updatedAt\":\"2021-03-16T05:27:18Z\",\"pushedAt\":\"2021-03-15T21:42:14Z\",\"private\":false},{\"fullName\":\"ryard/cicd-rest-app-ocp\",\"gitUrl\":\"git://github.com/ryard/cicd-rest-app-ocp.git\",\"createdAt\":\"2021-04-21T16:23:35Z\",\"updatedAt\":\"2021-04-21T16:23:36Z\",\"pushedAt\":\"2021-04-23T19:35:58Z\",\"private\":false}]";
+		//String expected = "[{\"fullName\":\"ryard/awesome-compose\",\"gitUrl\":\"git://github.com/ryard/awesome-compose.git\",\"createdAt\":\"2021-03-16T05:27:17Z\",\"updatedAt\":\"2021-03-16T05:27:18Z\",\"pushedAt\":\"2021-03-15T21:42:14Z\",\"private\":false},{\"fullName\":\"ryard/cicd-rest-app-ocp\",\"gitUrl\":\"git://github.com/ryard/cicd-rest-app-ocp.git\",\"createdAt\":\"2021-04-21T16:23:35Z\",\"updatedAt\":\"2021-04-21T16:23:36Z\",\"pushedAt\":\"2021-04-23T19:35:58Z\",\"private\":false}]";
 		//String expected = "[{\"fullName\":\"ryard/awesome-compose\",\"gitUrl\":\"git://github.com/ryard/awesome-compose.git\",\"createdAt\":\"2021-03-16T05:27:17Z\",\"updatedAt\":\"2021-03-16T05:27:18Z\",\"pushedAt\":\"2021-03-15T21:42:14Z\",\"private\":false}]";
 		List<Repository> mockRepositories = new ArrayList<>();
 		Repository repo = new Repository();
