@@ -13,7 +13,7 @@ pipeline {
         DEV_PROJECT = "robertoy-spring-boot-secrets-dev"
         STAGE_PROJECT = "robertoy-spring-boot-secrets-stage"
         APP_GIT_URL = "https://github.com/ryard/spring-boot-secrets-demo"
-        // NEXUS_SERVER = "http://nexus-common.apps.na45.prod.nextcle.com/repository/java"
+        NEXUS_SERVER = "http://nexus-common.apps.na45.prod.nextcle.com/repository/java"
 
         // DO NOT CHANGE THE GLOBAL VARS BELOW THIS LINE
         APP_NAME = "spring-boot-secrets-demo"
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 echo '### Checking for compile errors ###'
                 sh '''
-                        mvn -B clean compile
+                        mvn -s settings.xml -B clean compile
                    '''
             }
         }
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 echo '### Running unit tests ###'
                 sh '''
-                        mvn -B clean test -Dtest=GitHubControllerTest
+                        mvn -s settings.xml -B clean test -Dtest=GitHubControllerTest
                    '''
             }
         }
@@ -64,7 +64,7 @@ pipeline {
             steps {
                 echo '### Creating resources ###'
                 sh '''
-                        mvn -B clean fabric8:resource
+                        mvn -s settings.xml -B clean fabric8:resource
                    '''
             }
         }
@@ -74,7 +74,7 @@ pipeline {
                 echo '### Deploying in dev ###'
                 sh '''
 						oc project ${DEV_PROJECT}
-                        mvn -B fabric8:deploy -DskipTests=true
+                        mvn -s settings.xml -B fabric8:deploy -DskipTests=true
                    '''
             }
         }
@@ -122,8 +122,8 @@ pipeline {
 				   
                 echo '### Deploying in staging ###'
                 sh '''
-						oc project ${DEV_PROJECT}
-                        mvn -B fabric8:deploy -DskipTests=true
+						oc project ${STAGE_PROJECT}
+                        mvn -s settings.xml -B fabric8:deploy -DskipTests=true
                    '''
             }
         }
