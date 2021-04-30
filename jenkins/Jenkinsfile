@@ -55,7 +55,7 @@ pipeline {
                         oc project ${DEV_PROJECT}
 						
                         oc create secret generic spring-security --from-literal=spring.user.name=demo --from-literal=spring.user.password=password
-						oc create secret generic spring-github-demo --from-file ./github.user --from-file ./github.token
+						oc create secret generic spring-github-demo --from-file /tmp/github.user --from-file /tmp/github.token
                    '''
             }
         }
@@ -117,7 +117,7 @@ pipeline {
                         oc project ${STAGE_PROJECT}
 						
 						oc create secret generic spring-security --from-literal=spring.user.name=demo --from-literal=spring.user.password=password
-						oc create secret generic spring-github-demo --from-file ./github.user --from-file ./github.token
+						oc create secret generic spring-github-demo --from-file /tmp/github.user --from-file /tmp/github.token
                    '''
 				   
                 echo '### Deploying in staging ###'
