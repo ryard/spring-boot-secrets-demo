@@ -41,15 +41,6 @@ pipeline {
 
         stage('Create secrets') {
             steps {
-                echo '### Cleaning existing secrets ###'
-                sh '''
-                        oc project ${DEV_PROJECT}
-						
-                        oc delete secret spring-security
-						oc delete secret spring-github-demo
-						sleep 5
-                   '''			
-			
                 echo '### Creating secrets ###'
                 sh '''
                         oc project ${DEV_PROJECT}
@@ -103,15 +94,6 @@ pipeline {
 
         stage('Deploy to Staging Env') {
             steps {
-                echo '### Cleaning existing secrets in Staging ###'
-                sh '''
-                        oc project ${STAGE_PROJECT}
-                        
-						oc delete secret spring-security
-						oc delete secret spring-github-demo
-                        sleep 5
-                   '''
-
                 echo '### Creating secrets in Staging ###'
                 sh '''
                         oc project ${STAGE_PROJECT}
