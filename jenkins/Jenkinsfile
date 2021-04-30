@@ -24,6 +24,7 @@ pipeline {
         stage('Compilation Check') {
             steps {
                 echo '### Checking for compile errors ###'
+                echo "Hostname: ${HOSTNAME}"
                 sh '''
                         mvn -s settings.xml -B clean compile
                    '''
